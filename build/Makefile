@@ -5,8 +5,10 @@ CC = ~/Downloads/gcc-arm-none-eabi-8-2018-q4-major/bin/arm-none-eabi-gcc
 ifeq ($(RASPI_MODEL),1)
 	CPU = arm1176jzf-s
 	DIRECTIVES = -D MODEL_1
+	ARCHDIR = hw_rev_1
 else
 	CPU = cortex-a7
+	ARCHDIR = hw_rev_2
 endif
 
 CFLAGS= -mcpu=$(CPU) -fpic -ffreestanding $(DIRECTIVES)
@@ -19,7 +21,10 @@ KER_SRC = ../src/kernel
 KER_HEAD = ../include
 COMMON_SRC = ../src/extras
 OBJ_DIR = objects
-KERSOURCES = $(wildcard $(KER_SRC)/*.c)
+KERSOURCES += $(wildcard $(KER_SRC)/$(ARCHDIR)/*.c)
+KERSOURCES += $(wildcard $(KER_SRC)/memory/*.c)
+KERSOURCES += $(wildcard $(KER_SRC)/video/*.c)
+KERSOURCES += $(wildcard $(KER_SRC)/*.c)
 COMMONSOURCES = $(wildcard $(COMMON_SRC)/*.c)
 ASMSOURCES = $(wildcard $(KER_SRC)/*.s)
 OBJECTS = $(patsubst $(KER_SRC)/%.c, $(OBJ_DIR)/%.o, $(KERSOURCES))
@@ -28,14 +33,28 @@ OBJECTS += $(patsubst $(KER_SRC)/%.s, $(OBJ_DIR)/%.o, $(ASMSOURCES))
 HEADERS = $(wildcard $(KER_HEAD)/*.h)
 
 IMG_NAME=kernel.img
+FLAGS= -Wno-unused-parameter -D EMU_SWITCH
 
 build: $(OBJECTS) $(HEADERS)
 	echo $(OBJECTS)
 	$(CC) -T linker.ld -o $(IMG_NAME) $(LFLAGS) $(OBJECTS)
 
+$(OBJ_DIR)/$(ARCHDIR)/%.o: $(KER_SRC)/$(ARCHDIR)/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
+
+$(OBJ_DIR)/memory/%.o: $(KER_SRC)/memory/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
+
+$(OBJ_DIR)/video/%.o: $(KER_SRC)/video/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
+
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
+
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.s
 	mkdir -p $(@D)
