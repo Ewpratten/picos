@@ -2,6 +2,7 @@
 #define _KERNEL_UART_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 enum
 {
