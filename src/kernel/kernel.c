@@ -20,6 +20,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     uart_init();
     printf("UART Initalized\n");
 
+    printf("-- Welcome to PICOS --\n");
     while (1)
     {
         memset(buf, 0, 256);
