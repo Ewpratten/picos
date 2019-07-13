@@ -3,6 +3,8 @@
 #include <extras/stdlib.h>
 #include <kernel/memory/atag.h>
 #include <kernel/video/gpu.h>
+#include <kernel/timer.h>
+#include <kernel/io/sdcard.h>
 
 void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 {
@@ -19,6 +21,10 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     printf("GPU Initalized\n");
     uart_init();
     printf("UART Initalized\n");
+    timer_init();
+    printf("Timer Initalized\n");
+    sd_init();
+    printf("EMMC Initalized\n");
 
     printf("-- Welcome to PICOS --\n");
     while (1)
