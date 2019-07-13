@@ -45,6 +45,6 @@
 #define GPHEN1          ((volatile unsigned int*)(MMIO_BASE+0x00200068))
 #define GPPUD           ((volatile unsigned int*)(MMIO_BASE+0x00200094))
 #define GPPUDCLK0       ((volatile unsigned int*)(MMIO_BASE+0x00200098))
-#define GPPUDCLK1 ((volatile unsigned int*)(MMIO_BASE+0x0020009C))
+#define GPPUDCLK1       ((volatile unsigned int*)(MMIO_BASE+0x0020009C))
 
 #endif

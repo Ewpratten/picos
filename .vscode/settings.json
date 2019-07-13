@@ -4,6 +4,10 @@
         "*.html": "html",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "mem.h": "c"
+        "mem.h": "c",
+        "ubasic.h": "c",
+        "tokenizer.h": "c",
+        "utils.h": "c",
+        "file.h": "c"
     }
 }

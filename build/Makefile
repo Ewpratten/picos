@@ -27,6 +27,7 @@ KERSOURCES += $(wildcard $(KER_SRC)/memory/*.c)
 KERSOURCES += $(wildcard $(KER_SRC)/video/*.c)
 KERSOURCES += $(wildcard $(KER_SRC)/interrupts/*.c)
 KERSOURCES += $(wildcard $(KER_SRC)/io/*.c)
+KERSOURCES += $(wildcard $(KER_SRC)/ubasic/*.c)
 KERSOURCES += $(wildcard $(KER_SRC)/*.c)
 COMMONSOURCES = $(wildcard $(COMMON_SRC)/*.c)
 ASMSOURCES += $(wildcard $(KER_SRC)/*.s)
@@ -37,7 +38,7 @@ OBJECTS += $(patsubst $(KER_SRC)/%.s, $(OBJ_DIR)/%.o, $(ASMSOURCES))
 HEADERS = $(wildcard $(KER_HEAD)/*.h)
 
 IMG_NAME=kernel
-FLAGS= -Wno-unused-parameter #-D EMU_SWITCH
+FLAGS= -Wno-unused-parameter -Wno-sign-compare -D NO_SDCARD -D EMU_SWITCH
 
 build: $(OBJECTS) $(HEADERS)
 	echo $(OBJECTS)
@@ -61,6 +62,10 @@ $(OBJ_DIR)/interrupts/%.o: $(KER_SRC)/interrupts/%.c
 	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
 
 $(OBJ_DIR)/io/%.o: $(KER_SRC)/io/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
+
+$(OBJ_DIR)/ubasic/%.o: $(KER_SRC)/ubasic/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(KER_HEAD) -c $< -o $@ $(CSRCFLAGS) $(FLAGS)
 

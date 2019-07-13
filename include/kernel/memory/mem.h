@@ -35,4 +35,7 @@ void free_page(void * ptr);
 void * kmalloc(uint32_t bytes);
 void kfree(void *ptr);
 
+void *memmove(void *pvDst, const void *pvSrc, unsigned int n);
+// void *realloc(void *ptr, size_t originalLength, size_t newLength);
+
 #endif

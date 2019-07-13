@@ -47,10 +47,10 @@ void printf(const char * fmt, ...) {
                     putc('%');
                     break;
                 case 'd':
-                    puts(itoa(va_arg(args, int), 10));
+                    puts(short_itoa(va_arg(args, int), 10));
                     break;
                 case 'x':
-                    puts(itoa(va_arg(args, int), 16));
+                    puts(short_itoa(va_arg(args, int), 16));
                     break;
                 case 's':
                     puts(va_arg(args, char *));

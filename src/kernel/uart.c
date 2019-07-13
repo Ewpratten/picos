@@ -73,7 +73,7 @@ void uart_hex(unsigned int d) {
         n=(d>>c)&0xF;
         // 0-9 => '0'-'9', 10-15 => 'A'-'F'
         n+=n>9?0x37:0x30;
-        uart_write(n);
+        uart_puts(n);
     }
 }
 

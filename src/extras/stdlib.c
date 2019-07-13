@@ -68,7 +68,7 @@ void memset(void * dest, uint8_t c, int bytes) {
     }
 }
 
-char * itoa(int num, int base) {
+char * short_itoa(int num, int base) {
     static char intbuf[33];
     uint32_t j = 0, isneg = 0, i;
     divmod_t divmod_res;
@@ -119,7 +119,7 @@ char * itoa(int num, int base) {
     return intbuf;
 }
 
-int atoi(char * num) {
+int short_atoi(char * num) {
     int res = 0, power = 0, digit, i;
     char * start = num;
 
