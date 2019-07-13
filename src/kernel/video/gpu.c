@@ -9,9 +9,7 @@ void write_pixel(uint32_t x, uint32_t y, const pixel_t * pix) {
     memcpy(location, pix, BYTES_PER_PIXEL);
 }
 
-void gpu_putc(char c) {
-    static const pixel_t WHITE = {0xff, 0xff, 0xff};
-    static const pixel_t BLACK = {0x00, 0x00, 0x00};
+void gpu_putc_colour(char c, pixel_t fg, pixel_t bg) {
     uint8_t w,h;
     uint8_t mask;
     const uint8_t * bmp = font(c);
@@ -37,9 +35,9 @@ void gpu_putc(char c) {
         for(h = 0; h < CHAR_HEIGHT; h++) {
             mask = 1 << (w);
             if (bmp[h] & mask)
-                write_pixel(fbinfo.chars_x*CHAR_WIDTH + w, fbinfo.chars_y*CHAR_HEIGHT + h, &WHITE);
+                write_pixel(fbinfo.chars_x*CHAR_WIDTH + w, fbinfo.chars_y*CHAR_HEIGHT + h, &fg);
             else
-                write_pixel(fbinfo.chars_x*CHAR_WIDTH + w, fbinfo.chars_y*CHAR_HEIGHT + h, &BLACK);
+                write_pixel(fbinfo.chars_x*CHAR_WIDTH + w, fbinfo.chars_y*CHAR_HEIGHT + h, &bg);
         }
     }
 
@@ -48,6 +46,14 @@ void gpu_putc(char c) {
         fbinfo.chars_x = 0;
         fbinfo.chars_y++;
     }
+}
+
+void gpu_putc(char c){
+
+    static const pixel_t WHITE = {0xff, 0xff, 0xff};
+    static const pixel_t BLACK = {0x00, 0x00, 0x00};
+
+    gpu_putc_colour(c, WHITE, BLACK);
 }
 
 void gpu_init(void) {

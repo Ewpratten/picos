@@ -1,5 +1,5 @@
 #define CHAR_WIDTH 8
-#define CHAR_HEIGHT 8
+#define CHAR_HEIGHT 16
 
 #include <stdint.h>
 #include <kernel/peripheral.h>

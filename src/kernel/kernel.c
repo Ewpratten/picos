@@ -16,8 +16,10 @@ void console(void){
     char program[8192];
     char buf[128];
 
+    long line = 10;
+
     while (1){
-        printf(">");
+        printf("[%d] ", line);
 
         // Clear the buffer
         memset(buf, 0, 128);
@@ -30,6 +32,8 @@ void console(void){
             // Run the program
             ubasic_init(program);
 
+            line = 10;
+
             do {
                 ubasic_run();
             } while (!ubasic_finished());
@@ -38,10 +42,12 @@ void console(void){
             memset(program, 0, 8192);
         } else {
             // Append line to program
+            strcat(program, short_itoa(line, 10));
+            strcat(program, " ");
             strcat(program, buf);
             strcat(program, "\n");
+            line += 10;
         }
-
     }
 }
 
@@ -76,7 +82,15 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
     printf("EMMC disabled at compile time. Skipping\n");
 #endif
 
-    printf("-- Welcome to PICOS --\n");
+    printf("uBASIC Loaded with debug flag: %d", getDebugFlag());
+
+    // printf("-- Welcome to PICOS --\n");
+    printf("\n\n\
+     ____ ___ ____ ___  ____  \n\
+    |  _ \\_ _/ ___/ _ \\/ ___| \n\
+    | |_) | | |  | | | \\___ \\ \n\
+    |  __/| | |__| |_| |___) |\n\
+    |_|  |___\\____\\___/|____/ \n\n\n");
 
     console();
 

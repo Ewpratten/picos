@@ -28,7 +28,7 @@
  *
  */
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define DEBUG_PRINTF(...)  printf(__VA_ARGS__)
@@ -85,6 +85,10 @@ static void index_free(void);
 
 peek_func peek_function = NULL;
 poke_func poke_function = NULL;
+
+int getDebugFlag(){
+  return DEBUG;
+}
 
 /*---------------------------------------------------------------------------*/
 void
